@@ -71,4 +71,4 @@ test.dependsOn testFrontEnd
 
 buildFrontEnd.dependsOn npm_install
 
-jar.dependsOn buildFrontEnd
+bootJar.dependsOn buildFrontEnd
