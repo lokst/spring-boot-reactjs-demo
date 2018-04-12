@@ -69,4 +69,6 @@ testFrontEnd.dependsOn npm_install
 
 test.dependsOn testFrontEnd
 
+buildFrontEnd.dependsOn npm_install
+
 build.dependsOn buildFrontEnd
