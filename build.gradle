@@ -71,4 +71,4 @@ test.dependsOn testFrontEnd
 
 buildFrontEnd.dependsOn npm_install
 
-build.dependsOn buildFrontEnd
+assemble.dependsOn buildFrontEnd
