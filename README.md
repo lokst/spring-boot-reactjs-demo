@@ -1,3 +1,4 @@
+[![CircleCI](https://circleci.com/gh/oinvertedworld/spring-boot-reactjs-demo.svg?style=svg)](https://circleci.com/gh/oinvertedworld/spring-boot-reactjs-demo)
 # A Spring Boot + React.js demo webapp
 Demo webapp that uses Spring Boot for the backend and React.js in the frontend
 
