@@ -27,9 +27,9 @@ jobs:
       # Download and cache Java dependencies
       - restore_cache:
           keys:
-          - v1-java-dependencies-{{ checksum "build.gradle" }}
+          - v2-java-dependencies-{{ checksum "build.gradle" }}
           # fallback to using the latest cache if no exact match is found
-          - v1-java-dependencies-
+          - v2-java-dependencies-
 
       # Download and cache JavaScript dependencies
       - restore_cache:
@@ -44,7 +44,7 @@ jobs:
       - save_cache:
           paths:
             - ~/.gradle
-          key: v1-java-dependencies-{{ checksum "build.gradle" }}
+          key: v2-java-dependencies-{{ checksum "build.gradle" }}
       - save_cache:
           paths:
             - ~/repo/src/main/client/node_modules
