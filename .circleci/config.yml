@@ -31,13 +31,6 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-java-dependencies-
 
-      - run: gradle dependencies
-
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: v1-java-dependencies-{{ checksum "build.gradle" }}
-      
       # Download and cache JavaScript dependencies
       - restore_cache:
           keys:
@@ -45,8 +38,13 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-js-dependencies-
 
-      # run both frontend and backend tests, and test the build
+      # Run both frontend and backend tests, and test the build
       - run: gradle build
+
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: v1-java-dependencies-{{ checksum "build.gradle" }}
       - save_cache:
           paths:
             - ~/repo/src/main/client/node_modules
