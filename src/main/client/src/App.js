@@ -18,7 +18,7 @@ class App extends Component {
 
   render() {
     const secretElement =
-      <div className="secret">Top secret text</div>;
+      <div className="secret">Top secret text!!</div>;
     return (
       <div className="App">
         <header className="App-header">

@@ -49,7 +49,7 @@ jobs:
 
       - save_cache:
           paths:
-            - ~/src/main/client/node_modules
+            - src/main/client/node_modules
           key: v1-js-dependencies-{{ checksum "src/main/client/package-lock.json" }}
       # run both frontend and backend tests, and test the build
       - run: gradle build
@@ -81,7 +81,6 @@ jobs:
           name: Deploy Master to Heroku
           command: |
             git push heroku master
-            heroku restart
 
 workflows:
   version: 2
