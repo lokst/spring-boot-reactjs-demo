@@ -41,7 +41,7 @@ jobs:
       # Download and cache JavaScript dependencies
       - restore_cache:
           keys:
-          - v1-js-dependencies-{{ checksum "build.gradle" }}
+          - v1-js-dependencies-{{ checksum "~/repo/src/main/client/package-lock.json" }}
           # fallback to using the latest cache if no exact match is found
           - v1-js-dependencies-
 
