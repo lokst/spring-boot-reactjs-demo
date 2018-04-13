@@ -24,22 +24,41 @@ jobs:
     steps:
       - checkout
 
-      # Download and cache dependencies
+      # Download and cache Java dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "build.gradle" }}
+          - v1-java-dependencies-{{ checksum "build.gradle" }}
           # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+          - v1-java-dependencies-
 
       - run: gradle dependencies
 
       - save_cache:
           paths:
             - ~/.gradle
-          key: v1-dependencies-{{ checksum "build.gradle" }}
-        
-      # run tests!
-      - run: gradle test
+          key: v1-java-dependencies-{{ checksum "build.gradle" }}
+      
+      # Download and cache JavaScript dependencies
+      - restore_cache:
+          keys:
+          - v1-js-dependencies-{{ checksum "build.gradle" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-js-dependencies-
+
+      - run: gradle npm_install
+
+      - save_cache:
+          paths:
+            - ~/src/main/client/node_modules
+          key: v1-js-dependencies-{{ checksum "src/main/client/package-lock.json" }}
+      # run both frontend and backend tests, and test the build
+      - run: gradle build
+      - store_artifacts:
+          path: build/libs/
+          destination: dist/
+      - store_test_results:
+          path: build/reports/
+          destination: test-reports/
   deploy-job:
     docker:
       - image: circleci/openjdk:8-jdk
@@ -53,11 +72,15 @@ jobs:
     steps:
       - checkout
       - run:
+          name: setup Heroku
+          command: bash .circleci/setup-heroku.sh
+      - add_ssh_keys:
+          fingerprints:
+            - "a9:c6:15:38:e9:be:38:84:4e:7b:f6:4f:9c:4a:7f:7a"
+      - run:
           name: Deploy Master to Heroku
-          command: |  # this command is framework-dependent and may vary
-            heroku git:remote -a $HEROKU_APP_NAME
-            git push --force https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git HEAD:refs/heads/master
-            sleep 5  # sleep for 5 seconds to wait for dynos
+          command: |
+            git push heroku master
             heroku restart
 
 workflows:
