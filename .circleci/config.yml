@@ -45,17 +45,17 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-js-dependencies-
 
-      - run: gradle npm_install
-
+      # run both frontend and backend tests, and test the build
+      - run: gradle build
       - save_cache:
           paths:
             - ~/repo/src/main/client/node_modules
           key: v1-js-dependencies-{{ checksum "~/repo/src/main/client/package-lock.json" }}
-      # run both frontend and backend tests, and test the build
-      - run: gradle build
+
       - store_artifacts:
           path: ~/repo/build/libs/
           destination: dist/
+
       - store_test_results:
           path: ~/repo/build/reports/
           destination: test-reports/
